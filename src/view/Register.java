@@ -5,6 +5,8 @@
  */
 package view;
 
+import dao.UserDAO;
+import exception.MyException;
 import javax.swing.JOptionPane;
 import model.User;
 
@@ -171,9 +173,18 @@ public class Register extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       if(validateData()){
-           
-       }
+        if (validateData()) {
+            UserDAO userDAO = new UserDAO();
+            try {
+                userDAO.insertUser(newUser);
+
+                JOptionPane.showMessageDialog(this, "Registrado");
+                dispose();
+            } catch (MyException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
