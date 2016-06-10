@@ -5,17 +5,32 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+import model.User;
+
 /**
  *
  * @author usu21
  */
 public class Register extends javax.swing.JDialog {
 
+    private User newUser;
+
+    public User getNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(User newUser) {
+        this.newUser = newUser;
+    }
+
     /**
      * Creates new form Register
      */
     public Register(java.awt.Frame parent, boolean modal) {
+
         super(parent, modal);
+        newUser = new User();
         initComponents();
     }
 
@@ -27,6 +42,7 @@ public class Register extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -55,7 +71,24 @@ public class Register extends javax.swing.JDialog {
 
         jLabel5.setText("Apellidos");
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${newUser.password}"), jPasswordField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${newUser.username}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${newUser.name}"), jTextField2, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${newUser.surname}"), jTextField3, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -128,6 +161,8 @@ public class Register extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -135,10 +170,48 @@ public class Register extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       if(validateData()){
+           
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   
+    private boolean validateData() {
+        if (newUser.getUsername().isEmpty()
+                || newUser.getName().isEmpty()
+                || newUser.getSurname().isEmpty()
+                || newUser.getPassword().isEmpty()
+                || jPasswordField2.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "no puede haber campos vacíos",
+                    "ERROR: Campos en Blanco", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (newUser.getUsername().length() > 10
+                || newUser.getPassword().length() > 10) {
+            JOptionPane.showMessageDialog(this, "Maxima longitud 10 caracteres", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (newUser.getName().length() > 20) {
+            JOptionPane.showMessageDialog(this, "Nombre demasiado largo", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (newUser.getSurname().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Apellidos demasiado largos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        String verificacion = new String(jPasswordField2.getPassword());
+        if (!verificacion.equals(newUser.getPassword())) {
+            JOptionPane.showMessageDialog(this, "No coinciden los pass", "Error de verificación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -153,5 +226,6 @@ public class Register extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
